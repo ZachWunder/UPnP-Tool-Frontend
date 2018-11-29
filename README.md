@@ -11,11 +11,12 @@ Frontend for the UPnP tool.
 
 ## Use
 
-1. "npm install"
+1. Clone repository
+2. "npm install"
 
-"npm start" - Start development client
+- "npm start" - Start development client
 
-"npm build" -
+- "npm build" - Build for production
 
 ## Built with
 1. Create React App
