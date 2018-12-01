@@ -8,6 +8,9 @@ import Home from "./components/pages/Home";
 
 
 const theme = createMuiTheme({
+    typography: {
+        useNextVariants: true,
+    },
     palette: {
         primary: {
             main: blue[600],

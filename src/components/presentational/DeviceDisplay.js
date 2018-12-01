@@ -4,38 +4,7 @@ import RefreshRounded from "@material-ui/icons/RefreshRounded";
 
 import DevicePage from "./DevicePage";
 
-import { getDeviceInfo as reloadDevicesFromMain } from ".././resources/deviceInfo"
-
-class DeviceTab extends Component {
-    state = {
-        value: 0,
-        devices: [
-            {
-                Name: "Please wait for devices to load",
-                UDN: "No Devices Loaded",
-                URL: "FirstURL"
-            }
-        ]
-    };
-
-    componentDidMount() {
-        this.reloadDevices();
-    }
-
-    reloadDevices = () => {
-        reloadDevicesFromMain()
-            .then(msg => {
-                this.setState({ devices: msg });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    };
-
-    handleChange = (event, value) => {
-        this.setState({ value });
-    };
-
+class DeviceDisplay extends Component {
     render() {
         const { devices, value } = this.state;
 
@@ -81,21 +50,4 @@ class DeviceTab extends Component {
     }
 }
 
-export default DeviceTab;
-
-/*getDevicesInfo = () => {
-    ipcRenderer.on("deviceURLs", (event, arg) => {
-        this.setState({ devicesInfo: [...this.state.devices, arg] });
-    });
-    for (let url of this.state.devices) {
-        ipcRenderer.send("getDeviceInfo", url);
-    }
-    ipcRenderer.removeAllListeners("deviceURLs");
-
-    reloadDevicess = () => {
-        ipcRenderer.on("devices", (event, arg) => {
-            this.setState({ devices: arg });
-        });
-        ipcRenderer.send("getDevices");
-    };
-};*/
+export default DeviceDisplay;
