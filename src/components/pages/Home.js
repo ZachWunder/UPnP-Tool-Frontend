@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 
-import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Paper } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import RefreshRounded from "@material-ui/icons/RefreshRounded";
 
 import NavBar from "../presentational/NavBar";
 import DeviceInfo from "../presentational/DeviceInfo"
 
 const styles = theme => ({
-
+    gridContainer: {
+        marginTop: 30,
+        marginBottom: 30
+    }
 });
 
 class Home extends Component {
@@ -22,12 +24,13 @@ class Home extends Component {
     }
 
     reloadDevices = async () => {
-        const devices = await fetch("http://localhost:3000/getDevices")
+        await fetch("http://localhost:3000/getDevices")
             .then(response => {
                 return response.json()
             })
             .then(data => {
-                console.log(data.devices)
+                console.log(data);
+                console.log(data.devices);
                 this.setState({ devices: data.devices })
             });
     }
@@ -42,15 +45,15 @@ class Home extends Component {
                     Reload Devices
                     <RefreshRounded />
                 </Button>
+
+                <Grid container spacing={12} className={classes.gridContainer}>
                 {this.state.devices ? this.state.devices.map( device => {
                     return (
-                        <Button component={Link} to="/">
-                            <Paper>
-                                <DeviceInfo Name={device.Name} UDN={device.UDN} />
-                            </Paper>
-                        </Button>
+                        <DeviceInfo Name={device.Name} URL={device.SetupURL} />
                     )
                 }) : null}
+                </Grid>
+
             </div>
         )
     }

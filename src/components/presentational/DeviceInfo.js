@@ -1,38 +1,32 @@
 import React, {Component} from 'react';
 
+import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 
 const styles = theme => ({
     root: {
-        backgroundColor: theme.palette.primary.light,
+
     },
     Name: {
-        paddingTop: 5,
-        textAlign: "center",
-        marginLeft: 30,
-        marginRight: 30
+
     },
     UDN: {
-        paddingBottom: 15,
         textAlign: "center"
     }
 });
 
 class DeviceInfo extends Component {
     render () {
-        const { classes } = this.props;
-        const { Name, UDN } = this.props;
+        const { classes, Name, URL } = this.props;
+        const url = encodeURIComponent(URL);
 
         return (
-            <div className={classes.root}>
-                <Typography className={classes.Name} variant="h5" component="h3">
-                    {Name}
-                </Typography>
-                <Typography className={classes.UDN} component="p">
-                    {UDN}
-                </Typography>
-            </div>
+            <Button component={Link} to={"/device/" + url}>
+                    <Typography className={classes.Name} variant="h5" component="h3">
+                        {Name}
+                    </Typography>
+            </Button>
         )
     }
 }

@@ -5,6 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import blue from "@material-ui/core/colors/blue";
 
 import Home from "./components/pages/Home";
+import DevicePage from "./components/pages/DevicePage"
 
 
 const theme = createMuiTheme({
@@ -32,7 +33,8 @@ class App extends React.Component {
                 <MuiThemeProvider theme={theme}>
                     <CssBaseline />
 
-                    <Route path="/" component={Home}/>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/device/:URL" component={DevicePage} />
                 </MuiThemeProvider>
 
             </Router>
