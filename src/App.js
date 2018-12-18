@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./index.css";
 
 import Home from "./components/pages/Home";
-import DevicePage from "./components/pages/DevicePage"
+import DevicePage from "./components/pages/DevicePage";
+import ServicePage from "./components/pages/ServicePage";
 
 class App extends React.Component {
     render() {
@@ -12,7 +13,8 @@ class App extends React.Component {
             <Router>
                 <React.Fragment>
                     <Route exact path="/" component={Home}/>
-                    <Route path="/device/:URL" component={DevicePage} />
+                    <Route exact path="/device/:URL" component={DevicePage} />
+                    <Route path="/device/:URL/services/:ServiceURL" component={ServicePage} />
                 </React.Fragment>
             </Router>
 
