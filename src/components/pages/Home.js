@@ -1,18 +1,10 @@
 import React, { Component } from "react";
 
-import { withStyles } from "@material-ui/core/styles";
-import { Button, Grid } from "@material-ui/core";
-import RefreshRounded from "@material-ui/icons/RefreshRounded";
+import HomeWrapper from "../presentational/Home/HomeWrapper";
+import Title from "../presentational/Title";
+import ReloadButton from "../presentational/Home/ReloadButton";
+import DeviceButton from "../presentational/Home/DeviceButton";
 
-import NavBar from "../presentational/NavBar";
-import DeviceInfo from "../presentational/DeviceInfo"
-
-const styles = theme => ({
-    gridContainer: {
-        marginTop: 30,
-        marginBottom: 30
-    }
-});
 
 class Home extends Component {
 
@@ -24,39 +16,35 @@ class Home extends Component {
     }
 
     reloadDevices = async () => {
-        await fetch("http://localhost:3000/getDevices")
+        await fetch("http://localhost:3000/getAllDevices")
             .then(response => {
                 return response.json()
             })
             .then(data => {
-                console.log(data);
-                console.log(data.devices);
                 this.setState({ devices: data.devices })
             });
     }
 
     render () {
-        const { classes } = this.props;
-
         return (
-            <div>
-                <NavBar />
-                <Button variant="contained" color="secondary" onClick={this.reloadDevices}>
+            <HomeWrapper id="HomeWrapper">
+                <Title>UPnP Tool</Title>
+                <ReloadButton onClick={this.reloadDevices}>
                     Reload Devices
-                    <RefreshRounded />
-                </Button>
+                </ReloadButton>
 
-                <Grid container spacing={12} className={classes.gridContainer}>
-                {this.state.devices ? this.state.devices.map( device => {
+                {this.state.devices ? this.state.devices.map( (device, i) => {
+
                     return (
-                        <DeviceInfo Name={device.Name} URL={device.SetupURL} />
+                        <DeviceButton key={i} Area={i} Name={device.Name} URL={device.SetupURL} />
                     )
                 }) : null}
-                </Grid>
+            </HomeWrapper>
 
-            </div>
+
+
         )
     }
 }
 
-export default withStyles(styles)(Home);
+export default Home;
