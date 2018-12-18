@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 
+import DevicePageWrapper from "../presentational/DevicePage/DevicePageWrapper";
+import ServiceWrapper from "../presentational/DevicePage/Services";
+import DeviceInfoWrapper from "../presentational/DevicePage/DeviceInfo";
+import Title from "../presentational/Title";
+import BackButton from "../presentational/DevicePage/BackButton";
+
 class DevicePage extends Component {
 
     state = {
@@ -48,20 +54,24 @@ class DevicePage extends Component {
         const DeviceInfo = this.state.DeviceInfo;
         const Services = this.state.Services;
         return (
-            <div>
-                <div>
-                { DeviceInfo ?
-                    <div>
-                        <h2>MACAddress: {DeviceInfo.MACAddress}</h2>
-                        <h2>SerialNumber: {DeviceInfo.SerialNumber}</h2>
-                        <h2>FirmwareVersion: {DeviceInfo.FirmwareVersion}</h2>
-                        <h2>UDN: {DeviceInfo.UDN}</h2>
-                        <h2>DeviceType: {DeviceInfo.DeviceType}</h2>
-                    </div>
-                    : null
-                }
-                </div>
-                <div>
+            <DevicePageWrapper>
+                <Title>UPnP Tool</Title>
+                <BackButton to="/">
+                    Back to Devices
+                </BackButton>
+                <DeviceInfoWrapper>
+                    { DeviceInfo ?
+                        <div>
+                            <h2>MACAddress: {DeviceInfo.MACAddress}</h2>
+                            <h2>SerialNumber: {DeviceInfo.SerialNumber}</h2>
+                            <h2>FirmwareVersion: {DeviceInfo.FirmwareVersion}</h2>
+                            <h2>UDN: {DeviceInfo.UDN}</h2>
+                            <h2>DeviceType: {DeviceInfo.DeviceType}</h2>
+                        </div>
+                        : null
+                    }
+                </DeviceInfoWrapper>
+                <ServiceWrapper>
                     { Services ?
                         <div>
                             {Services.map( service => {
@@ -74,8 +84,8 @@ class DevicePage extends Component {
                         </div>
                         : null
                     }
-                </div>
-            </div>
+                </ServiceWrapper>
+            </DevicePageWrapper>
         )
     }
 }
