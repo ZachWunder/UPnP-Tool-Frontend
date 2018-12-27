@@ -2,14 +2,13 @@ import styled from "styled-components";
 
 const ServicePageWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr 3fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-areas:
-        "title title title"
         "back-button services services"
-        "device-info services services"
-        "device-info services services"
-        "device-info services services";
+        "actions services services"
+        "actions services services"
+        "actions services services";
     grid-column-gap: 2vw;
     height: 100%;
     width: 100%;

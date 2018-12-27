@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
 import DevicePageWrapper from "../presentational/DevicePage/DevicePageWrapper";
-import ServiceWrapper from "../presentational/DevicePage/Services";
+import ServiceWrapper from "../presentational/DevicePage/ServiceWrapper";
+import Service from "../presentational/DevicePage/Service";
 import DeviceInfoWrapper from "../presentational/DevicePage/DeviceInfo";
 import Title from "../presentational/Title";
-import BackButton from "../presentational/DevicePage/BackButton";
+import BackButton from "../presentational/BackButton";
 
 class DevicePage extends Component {
 
@@ -54,38 +55,40 @@ class DevicePage extends Component {
         const DeviceInfo = this.state.DeviceInfo;
         const Services = this.state.Services;
         return (
-            <DevicePageWrapper>
+            <React.Fragment>
                 <Title>UPnP Tool</Title>
-                <BackButton to="/">
-                    Back to Devices
-                </BackButton>
-                <DeviceInfoWrapper>
-                    { DeviceInfo ?
-                        <div>
-                            <h2>MACAddress: {DeviceInfo.MACAddress}</h2>
-                            <h2>SerialNumber: {DeviceInfo.SerialNumber}</h2>
-                            <h2>FirmwareVersion: {DeviceInfo.FirmwareVersion}</h2>
-                            <h2>UDN: {DeviceInfo.UDN}</h2>
-                            <h2>DeviceType: {DeviceInfo.DeviceType}</h2>
-                        </div>
-                        : null
-                    }
-                </DeviceInfoWrapper>
-                <ServiceWrapper>
-                    { Services ?
-                        <div>
-                            {Services.map( service => {
+                <DevicePageWrapper>
+
+                    <BackButton to="/">
+                        Back to Devices
+                    </BackButton>
+                    <DeviceInfoWrapper>
+                        { DeviceInfo ?
+                            <div>
+                                <h2>MACAddress: {DeviceInfo.MACAddress}</h2>
+                                <h2>SerialNumber: {DeviceInfo.SerialNumber}</h2>
+                                <h2>FirmwareVersion: {DeviceInfo.FirmwareVersion}</h2>
+                                <h2>UDN: {DeviceInfo.UDN}</h2>
+                                <h2>DeviceType: {DeviceInfo.DeviceType}</h2>
+                            </div>
+                            : null
+                        }
+                    </DeviceInfoWrapper>
+                    <ServiceWrapper>
+                        { Services ?
+                            Services.map((service, i) => {
                                 return (
-                                    <h2>
-                                        {service.serviceId}
-                                    </h2>
+                                    <Service serviceURL={service.SCPDURL}
+                                             basePath={this.props.location.pathname}
+                                             serviceId={service.serviceId}
+                                             key={i} />
                                 )
-                            })}
-                        </div>
-                        : null
-                    }
-                </ServiceWrapper>
-            </DevicePageWrapper>
+                            })
+                            : null
+                        }
+                    </ServiceWrapper>
+                </DevicePageWrapper>
+            </React.Fragment>
         )
     }
 }
