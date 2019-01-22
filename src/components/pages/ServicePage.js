@@ -5,6 +5,8 @@ import ServicePageWrapper from "../presentational/ServicePage/ServicePageWrapper
 import BackButton from "../presentational/BackButton";
 import ActionListWrapper from "../presentational/ServicePage/ActionListWrapper";
 import ActionButton from "../presentational/ServicePage/ActionButton";
+import ArgumentListWrapper from "../presentational/ServicePage/ArgumentListWrapper";
+import ArgumentList from "../presentational/ServicePage/ArgumentList";
 
 class ServicePage extends Component {
 
@@ -23,21 +25,36 @@ class ServicePage extends Component {
         .then(response => {
             return response.json()
         })
-        .then(actions => {
-            console.log(actions)
+        .then(serviceDetails => {
             this.setState({
-                ActionList: actions.actions
+                ActionList: serviceDetails.actionList,
+                StateVariables: serviceDetails.serviceStateTable
              })
         });
     }
 
-    setArguments = actionArguments => {
-        this.setState({ actionArguments: actionArguments.argument });
-        console.log(this.state.actionArguments)
+    setActiveArguments = argumentList => {
+        console.log(argumentList)
+        if (argumentList && argumentList.argument) {
+            this.setState({
+                clicked: true,
+                ActiveArguments: argumentList.argument,
+            })
+        } else if (argumentList) {
+            this.setState({
+                clicked: true,
+                ActiveArguments: argumentList,
+            });
+        } else {
+            this.setState({ clicked:true, ActiveArguments: [{name: "No arguments for this action"}]});
+        }
     }
 
     render () {
+        const actionClicked = this.state.clicked;
         const ActionList = this.state.ActionList;
+        const StateVariables = this.state.StateVariables
+        const ActiveArguments = this.state.ActiveArguments;
         return (
             <React.Fragment>
                 <Title>UPnP Tool</Title>
@@ -45,17 +62,32 @@ class ServicePage extends Component {
                     <BackButton to={this.props.location.pathname.split("/services/")[0]}>
                         Back to Device
                     </BackButton>
+                    <ArgumentListWrapper>
+                        { actionClicked
+                            ? <ArgumentList argumentList={ActiveArguments} stateVariables={StateVariables} />
+                            : <h1>Select an argument to view it's actions</h1>
+                        }
+                    </ArgumentListWrapper>
                     <ActionListWrapper>
-                        {ActionList && ActionList.length ? ActionList.map(action => {
-                            return (
-                                <ActionButton key={action.name} name={action.name} setArguments={this.setArguments} argumentList={action.argumentList} />
-                            )
-                        }) : ActionList.name ?
-                            <ActionButton key={ActionList.name} name={ActionList.name} setArguments={this.setArguments} argumentList={ActionList.argumentList} />
-                        : null
+                        {ActionList && ActionList.length
+                            ? ActionList.map(action => {
+                                return (
+                                    <ActionButton
+                                        key={action.name}
+                                        name={action.name}
+                                        setActiveActionArgs={this.setActiveArguments}
+                                        argumentList={action.argumentList} />
+                                    )
+                                })
+                            : ActionList.name
+                                ? <ActionButton
+                                    key={ActionList.name}
+                                    name={ActionList.name}
+                                    setActiveActionArgs={this.setActiveArguments}
+                                    argumentList={ActionList.argumentList} />
+                                : <h2>No actions found for this service</h2>
                     }
                     </ActionListWrapper>
-
                 </ServicePageWrapper>
             </React.Fragment>
 

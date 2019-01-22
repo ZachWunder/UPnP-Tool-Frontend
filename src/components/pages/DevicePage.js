@@ -36,7 +36,6 @@ class DevicePage extends Component {
       fetch("http://localhost:3000/getDeviceInfo/" + URL)
       .then(response => response.json())
       .then(device => {
-          console.log(device);
           this.setState({
               DeviceInfo: {
                   MACAddress: device.MACAddress,
